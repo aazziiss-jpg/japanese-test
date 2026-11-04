@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --paper: #f6f4ef;
+  --paper-raised: #fbfaf6;
+  --paper-sunken: #efece4;
+  --ink: #0a0a0b;
+  --ink-soft: #35353a;
+  --ink-muted: #74747c;
+  --ink-faint: #a3a29b;
+  --line: #e2dfd6;
+  --line-strong: #c9c5b9;
+  --accent: #c8352b;
+  --accent-foreground: #fbfaf6;
+  --accent-soft: #f2e2df;
+  --success: #2f6b4f;
+  --success-soft: #e3ece6;
+  --grain-opacity: 0.035;
+  --canvas-ink: #0a0a0b;
+  --canvas-guide: #b9b5a9;
+}
+
+.dark {
+  --paper: #0a0a0b;
+  --paper-raised: #111113;
+  --paper-sunken: #070708;
+  --ink: #f2f0ea;
+  --ink-soft: #cbc8c0;
+  --ink-muted: #8b8b93;
+  --ink-faint: #5c5c63;
+  --line: #232327;
+  --line-strong: #38383e;
+  --accent: #e04a3e;
+  --accent-foreground: #0a0a0b;
+  --accent-soft: #2a1514;
+  --success: #7fbf9b;
+  --success-soft: #14231b;
+  --grain-opacity: 0.055;
+  --canvas-ink: #f2f0ea;
+  --canvas-guide: #4a4a52;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunken: var(--paper-sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-jp: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+    "Noto Sans JP", sans-serif;
+  --font-serif-jp: "Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN",
+    "Noto Serif JP", serif;
+
+  --text-hero: clamp(2.6rem, 6.2vw, 5rem);
+  --text-hero--line-height: 0.98;
+  --text-hero--letter-spacing: -0.04em;
+  --text-hero--font-weight: 500;
+
+  --text-display: clamp(1.9rem, 3.6vw, 3.1rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 500;
+
+  --text-title: clamp(1.3rem, 2vw, 1.7rem);
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: -0.02em;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.18em;
+  --text-eyebrow--font-weight: 500;
+
+  --radius-card: 8px;
+  --radius-control: 3px;
+
+  --ease-sumi: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-blink: blink 1.15s steps(2, start) infinite;
+  --animate-drift: drift 22s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0) rotate(-1.2deg);
+  }
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-feature-settings: "ss01" 1, "cv01" 1;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--ink);
+    color: var(--paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+
+  .rule-grid {
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: 88px 88px;
+    background-position: -1px -1px;
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(var(--line-strong) 0.7px, transparent 0.7px);
+    background-size: 18px 18px;
+  }
+
+  .hairline {
+    border: 1px solid var(--line);
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  }
+
+  .mask-fade-r {
+    mask-image: linear-gradient(to right, black 60%, transparent 100%);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vertical-rl {
+    writing-mode: vertical-rl;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
