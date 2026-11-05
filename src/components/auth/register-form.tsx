@@ -6,7 +6,7 @@ import { ArrowGlyph, Button } from "@/components/ui/button";
 import { CodeInput } from "@/components/auth/code-input";
 import { PasswordInput } from "@/components/auth/password-input";
 import { FormError } from "@/components/auth/form-message";
-import { authErrorMessage } from "@/components/auth/auth-errors";
+import { authErrorDetail, authErrorMessage } from "@/components/auth/auth-errors";
 import {
   fieldClasses,
   helperClasses,
@@ -25,6 +25,7 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
   const [email, setEmail] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [detail, setDetail] = useState<string | null>(null);
   const [cooldown, setCooldown] = useState(0);
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
     const confirm = String(formData.get("confirm") ?? "");
 
     setError(null);
+    setDetail(null);
 
     if (password.length < 8) {
       setError("Kata sandi minimal 8 karakter.");
@@ -73,6 +75,7 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
             "Gagal membuat akun. Periksa koneksi lalu coba lagi.",
           ),
         );
+        setDetail(authErrorDetail(signUpError));
         setPending(false);
         return;
       }
@@ -111,6 +114,7 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
     const token = String(formData.get("code") ?? "").trim();
 
     setError(null);
+    setDetail(null);
 
     if (!/^\d{6}$/.test(token)) {
       setError("Masukkan 6 angka kode verifikasi.");
@@ -133,6 +137,7 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
             "Kode verifikasi salah atau sudah kedaluwarsa.",
           ),
         );
+        setDetail(authErrorDetail(verifyError));
         setPending(false);
         return;
       }
@@ -149,6 +154,7 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
     if (pending || cooldown > 0) return;
 
     setError(null);
+    setDetail(null);
     setPending(true);
 
     try {
@@ -164,6 +170,7 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
             "Gagal mengirim ulang kode. Coba lagi nanti.",
           ),
         );
+        setDetail(authErrorDetail(resendError));
         setPending(false);
         return;
       }
@@ -198,7 +205,16 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
           />
         </div>
 
-        {error ? <FormError>{error}</FormError> : null}
+        {error ? (
+          <FormError>
+            {error}
+            {detail ? (
+              <span className="mt-1.5 block font-mono text-[10px] leading-relaxed text-ink-faint">
+                {detail}
+              </span>
+            ) : null}
+          </FormError>
+        ) : null}
 
         <Button
           type="submit"
@@ -223,6 +239,7 @@ export function RegisterForm({ onLogin }: { onLogin: () => void }) {
             type="button"
             onClick={() => {
               setError(null);
+              setDetail(null);
               setStep("details");
             }}
             className="text-ink-muted transition-colors hover:text-ink"
