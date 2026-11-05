@@ -55,7 +55,7 @@ export function SenseiStudio() {
           </span>
           <ul className="mt-3 flex flex-col gap-2 text-[11px] text-ink-muted">
             <li className="flex justify-between">
-              <span>Level</span>
+              <span>Tingkat</span>
               <span className="font-mono text-ink">N5</span>
             </li>
             <li className="flex justify-between">

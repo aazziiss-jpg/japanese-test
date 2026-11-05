@@ -171,7 +171,7 @@ export function WritingLab() {
             <li className="flex gap-2.5">
               <span className="mt-1.5 size-1.5 shrink-0 bg-accent" />
               Goresan yang meleset ditandai vermilion dan bisa diulang tanpa
-              kehilangan nyawa.
+              batas.
             </li>
             <li className="flex gap-2.5">
               <span className="mt-1.5 size-1.5 shrink-0 border border-line-strong" />
