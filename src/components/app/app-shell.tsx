@@ -5,9 +5,6 @@ import { usePathname } from "next/navigation";
 import {
   ArrowLeft,
   BookOpen,
-  Flame,
-  Gem,
-  Heart,
   House,
   Layers,
   Mic,
@@ -19,7 +16,6 @@ import {
 import { Logo } from "@/components/brand/logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { UserMenu } from "@/components/auth/user-menu";
-import { learner } from "@/data/preview";
 import { cn } from "@/lib/cn";
 
 const items = [
@@ -93,42 +89,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               );
             })}
           </nav>
-
-          <div className="flex flex-col gap-3 border-t border-line pt-5">
-            <div className="flex items-center justify-between text-[11px] text-ink-muted">
-              <span className="flex items-center gap-1.5">
-                <Flame className="size-3.5" strokeWidth={1.5} />
-                Streak
-              </span>
-              <span className="font-mono tabular text-ink">{learner.streak} hari</span>
-            </div>
-            <div className="flex items-center justify-between text-[11px] text-ink-muted">
-              <span className="flex items-center gap-1.5">
-                <Heart className="size-3.5" strokeWidth={1.5} />
-                Nyawa
-              </span>
-              <span className="font-mono tabular text-ink">{learner.hearts}/5</span>
-            </div>
-            <div className="flex items-center justify-between text-[11px] text-ink-muted">
-              <span className="flex items-center gap-1.5">
-                <Gem className="size-3.5" strokeWidth={1.5} />
-                Permata
-              </span>
-              <span className="font-mono tabular text-ink">{learner.gems}</span>
-            </div>
-            <div className="mt-2 border border-line bg-paper-raised p-3">
-              <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.14em] text-ink-faint">
-                <span>Level {learner.level}</span>
-                <span>{learner.xp}/1500</span>
-              </div>
-              <div className="mt-2 h-px bg-line" aria-hidden="true">
-                <div
-                  className="h-full bg-ink"
-                  style={{ width: `${(learner.xp / learner.xpTarget) * 100}%` }}
-                />
-              </div>
-            </div>
-          </div>
         </aside>
 
         <main className="min-w-0 flex-1 px-4 pb-28 pt-6 sm:px-6 md:px-8 md:pb-16 md:pt-10">
@@ -197,9 +157,6 @@ export function PreviewHeader({
 }
 
 const statIcons = {
-  flame: Flame,
-  heart: Heart,
-  gem: Gem,
   layers: Layers,
   target: Target,
   sparkles: Sparkles,

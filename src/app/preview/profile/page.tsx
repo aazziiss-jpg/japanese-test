@@ -23,52 +23,12 @@ export default function ProfilePage() {
     <div>
       <PreviewHeader
         eyebrow="Profil"
-        title={learner.name}
-        description={`${learner.handle} · bergabung ${learner.joined}`}
-        action={
-          <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-faint">
-            Level {learner.level} · {learner.levelTitle}
-          </span>
-        }
+        title="Progres pribadi."
+        description="Kebiasaan, statistik, dan lencana."
       />
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div className="flex min-w-0 flex-col gap-6">
-          <div className="flex flex-wrap items-center gap-5 border border-line bg-paper-raised p-5">
-            <span className="grid size-16 place-items-center border border-ink bg-ink font-serif-jp text-2xl text-paper">
-              ら
-            </span>
-            <div className="flex min-w-[160px] flex-1 flex-col gap-1.5">
-              <div className="flex items-baseline justify-between font-mono text-[9px] uppercase tracking-[0.14em] text-ink-faint">
-                <span>Level {learner.level}</span>
-                <span>{learner.xp} / {learner.xpTarget} XP</span>
-              </div>
-              <div className="h-[3px] bg-line" aria-hidden="true">
-                <div
-                  className="h-full bg-ink"
-                  style={{ width: `${(learner.xp / learner.xpTarget) * 100}%` }}
-                />
-              </div>
-              <p className="mt-1 text-[11.5px] text-ink-muted">
-                260 XP lagi menuju level {learner.level + 1}.
-              </p>
-            </div>
-            <div className="flex w-full items-center gap-4 border-t border-line pt-4 sm:w-auto sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
-              <div className="flex flex-col">
-                <span className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-ink-faint">
-                  Streak
-                </span>
-                <span className="font-mono text-xl tabular">{learner.streak}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-ink-faint">
-                  Terbaik
-                </span>
-                <span className="font-mono text-xl tabular">{learner.bestStreak}</span>
-              </div>
-            </div>
-          </div>
-
           <div className="grid grid-cols-2 gap-px border border-line bg-line lg:grid-cols-4">
             {stats.map((stat) => (
               <div key={stat.label} className="bg-paper p-4">
@@ -89,9 +49,6 @@ export default function ProfilePage() {
             <div className="mb-4 flex items-center justify-between">
               <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-faint">
                 Peta kebiasaan · 6 bulan
-              </span>
-              <span className="font-mono text-[8.5px] uppercase tracking-[0.12em] text-ink-faint">
-                {learner.streak} hari beruntun
               </span>
             </div>
 

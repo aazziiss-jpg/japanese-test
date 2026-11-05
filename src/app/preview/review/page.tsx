@@ -12,7 +12,6 @@ export default function ReviewPage() {
         action={
           <div className="flex flex-wrap gap-2">
             <MiniStat icon="layers" label="Jatuh tempo" value="12" accent />
-            <MiniStat icon="flame" label="Streak" value={`${learner.streak} hari`} />
             <MiniStat icon="target" label="Retensi" value={`${learner.accuracy}%`} />
           </div>
         }

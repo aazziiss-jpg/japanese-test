@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { PreviewHeader } from "@/components/app/app-shell";
-import { learner } from "@/data/preview";
 
 const screens = [
   {
@@ -17,7 +16,7 @@ const screens = [
     index: "02",
     title: "Pelajaran",
     description:
-      "Kartu soal, pilihan jawaban, nyawa, dan panel koreksi yang tidak menghakimi.",
+      "Kartu soal, pilihan jawaban, dan panel koreksi yang tidak menghakimi.",
     mark: "問",
   },
   {
@@ -61,16 +60,6 @@ export default function PreviewIndex() {
         eyebrow="Pratinjau · fase desain"
         title="Enam layar inti, satu bahasa visual."
         description="Semua layar memakai data contoh dan belum terhubung ke database. Tujuannya mengunci hierarki, tipografi, dan gerak sebelum logika dibuat."
-        action={
-          <div className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-faint">
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-1 bg-accent" />
-              {learner.name}
-            </span>
-            <span className="h-3 w-px bg-line" />
-            <span>12 hari beruntun</span>
-          </div>
-        }
       />
 
       <div className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">

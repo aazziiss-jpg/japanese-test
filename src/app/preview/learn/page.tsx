@@ -1,121 +1,18 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Check,
-  Lock,
-  Play,
-} from "lucide-react";
-import { MiniStat, PreviewHeader } from "@/components/app/app-shell";
-import { learner, todayQuests, units } from "@/data/preview";
+import { ArrowRight, Check } from "lucide-react";
+import { HiraganaExam } from "@/components/preview/hiragana-exam";
+import { LearnHeader } from "@/components/preview/learn-header";
+import { LearnMap } from "@/components/preview/learn-map";
+import { todayQuests } from "@/data/preview";
 import { cn } from "@/lib/cn";
 
 export default function LearnPage() {
   return (
     <div>
-      <PreviewHeader
-        eyebrow="Peta belajar · JLPT N5"
-        title={`Selamat malam, ${learner.name}.`}
-        description="Lanjutkan dari tempat kamu berhenti. Dua pelajaran lagi untuk menyelesaikan baris K dan S."
-        action={
-          <div className="flex flex-wrap gap-2">
-            <MiniStat icon="flame" label="Streak" value={`${learner.streak} hari`} accent />
-            <MiniStat icon="heart" label="Nyawa" value={`${learner.hearts}/5`} />
-            <MiniStat icon="sparkles" label="XP" value={`${learner.xp}`} />
-          </div>
-        }
-      />
+      <LearnHeader />
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-        <div className="relative">
-          <span
-            aria-hidden="true"
-            className="absolute left-[19px] top-4 bottom-10 w-px bg-line"
-          />
-          <ol className="flex flex-col gap-3">
-            {units.map((unit) => {
-              const locked = unit.status === "locked";
-              const active = unit.status === "active";
-              const done = unit.status === "done";
-
-              return (
-                <li key={unit.id} className="relative pl-12">
-                  <span
-                    className={cn(
-                      "absolute left-0 top-5 grid size-10 place-items-center border font-mono text-[10px]",
-                      done && "border-ink bg-ink text-paper",
-                      active && "border-ink bg-paper text-ink",
-                      locked && "border-line bg-paper text-ink-faint",
-                    )}
-                  >
-                    {done ? (
-                      <Check className="size-4" strokeWidth={2} />
-                    ) : locked ? (
-                      <Lock className="size-3.5" strokeWidth={1.5} />
-                    ) : (
-                      unit.index
-                    )}
-                  </span>
-
-                  <div
-                    className={cn(
-                      "flex items-center justify-between gap-4 border p-4 transition-colors duration-300",
-                      active
-                        ? "border-ink bg-paper-raised"
-                        : "border-line bg-paper-raised/50",
-                      locked && "opacity-55",
-                    )}
-                  >
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2">
-                        <h2 className="text-[14px] font-medium tracking-[-0.01em]">
-                          {unit.title}
-                        </h2>
-                        {active ? (
-                          <span className="rounded-full bg-accent px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] text-accent-foreground">
-                            lanjutkan
-                          </span>
-                        ) : null}
-                      </div>
-                      <p className="font-jp text-[11.5px] tracking-wide text-ink-muted">
-                        {unit.caption}
-                      </p>
-                      <div className="mt-1 flex items-center gap-2">
-                        <div className="h-px w-24 bg-line" aria-hidden="true">
-                          <div
-                            className="h-full bg-ink"
-                            style={{ width: `${unit.progress}%` }}
-                          />
-                        </div>
-                        <span className="font-mono text-[9px] tabular text-ink-faint">
-                          {unit.meta}
-                        </span>
-                      </div>
-                    </div>
-
-                    {locked ? (
-                      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-faint">
-                        terkunci
-                      </span>
-                    ) : (
-                      <Link
-                        href="/preview/lesson"
-                        className={cn(
-                          "grid size-9 shrink-0 place-items-center rounded-[3px] border transition-colors",
-                          active
-                            ? "border-ink bg-ink text-paper hover:bg-ink-soft"
-                            : "border-line text-ink-muted hover:border-ink hover:text-ink",
-                        )}
-                        aria-label={`Buka pelajaran ${unit.title}`}
-                      >
-                        <Play className="size-3.5" strokeWidth={1.5} />
-                      </Link>
-                    )}
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
+        <LearnMap />
 
         <aside className="flex flex-col gap-4">
           <div className="border border-line bg-paper-raised">
@@ -156,6 +53,8 @@ export default function LearnPage() {
               ))}
             </div>
           </div>
+
+          <HiraganaExam />
 
           <div className="border border-ink bg-ink p-5 text-paper">
             <span className="font-mono text-[8.5px] uppercase tracking-[0.18em] text-paper/40">
