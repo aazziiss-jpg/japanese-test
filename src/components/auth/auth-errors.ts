@@ -9,6 +9,10 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
   same_password: "Kata sandi baru harus berbeda dari kata sandi sebelumnya.",
   email_address_invalid: "Alamat email tidak valid.",
   signup_disabled: "Pendaftaran dinonaktifkan. Hubungi admin.",
+  unexpected_failure:
+    "Server Supabase gagal mengirim email verifikasi. Periksa pengaturan SMTP di dashboard, atau matikan Confirm email untuk sementara.",
+  email_provider_disabled:
+    "Provider email dinonaktifkan di Supabase. Aktifkan di Authentication → Providers.",
   otp_expired: "Kode salah atau sudah kedaluwarsa. Minta kode baru.",
   otp_disabled: "Verifikasi kode sedang tidak aktif. Hubungi admin.",
   validation_failed: "Kode verifikasi tidak valid. Periksa kembali.",
@@ -22,4 +26,15 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
 export function authErrorMessage(code: string | undefined, fallback: string) {
   if (!code) return fallback;
   return AUTH_ERROR_MESSAGES[code] ?? fallback;
+}
+
+/**
+ * Detail teknis untuk membantu diagnosis saat pengembangan. Tidak pernah
+ * ditampilkan di build produksi.
+ */
+export function authErrorDetail(error: { code?: string; message?: string }) {
+  if (process.env.NODE_ENV === "production") return null;
+
+  const parts = [error.code, error.message].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : null;
 }
