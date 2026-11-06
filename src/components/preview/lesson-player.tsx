@@ -4,22 +4,24 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Volume2, X } from "lucide-react";
-import { getHiraganaQuestions, hiraganaRows } from "@/data/preview";
+import { findKanaRow, getKanaQuestions, kanaRowsForScript } from "@/data/preview";
 import { Button, ButtonLink } from "@/components/ui/button";
 import {
-  clearActiveHiraganaRow,
-  completeHiraganaRow,
-  writeActiveHiraganaRow,
+  clearActiveKanaRow,
+  completeKanaRow,
+  writeActiveKanaRow,
 } from "@/lib/preview-progress";
 import { cn } from "@/lib/cn";
 import { EASE_SUMI } from "@/lib/motion";
 
 export function LessonPlayer({ rowId }: { rowId: string }) {
-  const row =
-    hiraganaRows.find((item) => item.id === rowId) ?? hiraganaRows[0];
-  const questions = getHiraganaQuestions(row.id);
-  const rowIndex = hiraganaRows.findIndex((item) => item.id === row.id);
-  const nextRow = rowIndex >= 0 ? hiraganaRows[rowIndex + 1] : undefined;
+  const row = findKanaRow(rowId) ?? kanaRowsForScript("hiragana")[0];
+  const questions = getKanaQuestions(row.id);
+  const scriptRows = kanaRowsForScript(row.script);
+  const rowIndex = scriptRows.findIndex((item) => item.id === row.id);
+  const nextRow = rowIndex >= 0 ? scriptRows[rowIndex + 1] : undefined;
+  const scriptName = row.script === "katakana" ? "Katakana" : "Hiragana";
+  const scriptNameLower = row.script === "katakana" ? "katakana" : "hiragana";
 
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -32,7 +34,7 @@ export function LessonPlayer({ rowId }: { rowId: string }) {
   const lastQuestion = index === questions.length - 1;
 
   useEffect(() => {
-    writeActiveHiraganaRow(row.id);
+    writeActiveKanaRow(row.id);
   }, [row.id]);
 
   const selectOption = (optionId: string) => {
@@ -42,12 +44,12 @@ export function LessonPlayer({ rowId }: { rowId: string }) {
 
   const next = () => {
     if (lastQuestion) {
-      completeHiraganaRow(row.id);
+      completeKanaRow(row.id);
       setFinished(true);
       if (nextRow) {
-        writeActiveHiraganaRow(nextRow.id);
+        writeActiveKanaRow(nextRow.id);
       } else {
-        clearActiveHiraganaRow();
+        clearActiveKanaRow();
       }
       return;
     }
@@ -82,7 +84,7 @@ export function LessonPlayer({ rowId }: { rowId: string }) {
       </div>
 
       <div className="mt-6 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.16em] text-ink-faint">
-        <span>Hiragana · {row.title}</span>
+        <span>{scriptName} · {row.title}</span>
         <span>
           {finished
             ? `${questions.length}/${questions.length} selesai`
@@ -106,7 +108,9 @@ export function LessonPlayer({ rowId }: { rowId: string }) {
           <p className="mt-3 max-w-md text-[13px] leading-relaxed text-ink-muted">
             {nextRow
               ? "Baris ini sudah kamu lewati. Lanjut ke baris berikutnya, atau kembali ke peta belajar."
-              : "Semua baris hiragana sudah kamu lewati. Kembali ke peta untuk melanjutkan ke katakana."}
+              : row.script === "hiragana"
+                ? "Semua baris hiragana sudah kamu lewati. Kembali ke peta untuk melanjutkan ke katakana."
+                : "Semua baris katakana sudah kamu lewati. Kembali ke peta belajar."}
           </p>
 
           <div className="mt-8 border-t border-line pt-6">
@@ -140,7 +144,7 @@ export function LessonPlayer({ rowId }: { rowId: string }) {
             ) : (
               <>
                 <p className="text-[13px] font-medium">
-                  Semua baris hiragana selesai.
+                  Semua baris {scriptNameLower} selesai.
                 </p>
                 <div className="mt-4">
                   <ButtonLink href="/preview/learn" size="sm">
@@ -276,7 +280,7 @@ export function LessonPlayer({ rowId }: { rowId: string }) {
           </motion.div>
 
           <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-faint">
-            Pratinjau · belum tersambung ke progres
+            Pratinjau · progres tersimpan di perangkat ini
           </p>
 
           <div className="mt-8 flex items-start gap-3 border border-dashed border-line p-4">

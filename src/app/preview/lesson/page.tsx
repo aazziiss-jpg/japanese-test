@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { LessonPlayer } from "@/components/preview/lesson-player";
-import { hiraganaRows } from "@/data/preview";
+import { findKanaRow, hiraganaRows } from "@/data/preview";
 
 export default function LessonPreviewPage({
   searchParams,
@@ -20,7 +20,7 @@ async function LessonContent({
   searchParams: Promise<{ row?: string }>;
 }) {
   const { row } = await searchParams;
-  const rowId = hiraganaRows.find((item) => item.id === row)?.id ?? "a";
+  const rowId = findKanaRow(row)?.id ?? hiraganaRows[0].id;
 
   return <LessonPlayer key={rowId} rowId={rowId} />;
 }
