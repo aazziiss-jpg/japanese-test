@@ -1,22 +1,22 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { MiniStat, PreviewHeader } from "@/components/app/app-shell";
-import { defaultHiraganaRow, hiraganaRows, learner } from "@/data/preview";
+import { PreviewHeader } from "@/components/app/app-shell";
+import { defaultHiraganaRow, findKanaRow } from "@/data/preview";
 import {
-  getActiveHiraganaRowServerSnapshot,
-  getActiveHiraganaRowSnapshot,
-  subscribeActiveHiraganaRow,
+  getActiveKanaRowServerSnapshot,
+  getActiveKanaRowSnapshot,
+  subscribeKanaProgress,
 } from "@/lib/preview-progress";
 
 export function LearnHeader() {
   const stored = useSyncExternalStore(
-    subscribeActiveHiraganaRow,
-    getActiveHiraganaRowSnapshot,
-    getActiveHiraganaRowServerSnapshot,
+    subscribeKanaProgress,
+    getActiveKanaRowSnapshot,
+    getActiveKanaRowServerSnapshot,
   );
   const activeRowId = stored === null ? defaultHiraganaRow : stored;
-  const activeRow = hiraganaRows.find((row) => row.id === activeRowId);
+  const activeRow = findKanaRow(activeRowId);
 
   return (
     <PreviewHeader
@@ -24,16 +24,11 @@ export function LearnHeader() {
       title="Selamat malam."
       description={
         activeRow
-          ? `Lanjutkan sesi hiragana di ${activeRow.title.replace(
+          ? `Lanjutkan sesi ${activeRow.script} di ${activeRow.title.replace(
               "Baris",
               "baris",
             )}.`
-          : "Pilih baris hiragana untuk mulai belajar."
-      }
-      action={
-        <div className="flex flex-wrap gap-2">
-          <MiniStat icon="sparkles" label="XP" value={`${learner.xp}`} />
-        </div>
+          : "Pilih baris hiragana atau katakana untuk mulai belajar."
       }
     />
   );

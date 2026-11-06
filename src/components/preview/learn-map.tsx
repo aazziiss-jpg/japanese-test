@@ -5,20 +5,19 @@ import { useMemo, useState, useSyncExternalStore } from "react";
 import { Check, Lock, Play } from "lucide-react";
 import {
   defaultHiraganaRow,
-  hiraganaRows,
+  findKanaRow,
   learningLevels,
   type LearningLevel,
   type LearningUnit,
 } from "@/data/preview";
 import {
-  getActiveHiraganaRowServerSnapshot,
-  getActiveHiraganaRowSnapshot,
-  getCompletedHiraganaRowsServerSnapshot,
-  getCompletedHiraganaRowsSnapshot,
-  parseCompletedHiraganaRows,
-  subscribeActiveHiraganaRow,
-  subscribeHiraganaCompletion,
-  writeActiveHiraganaRow,
+  getActiveKanaRowServerSnapshot,
+  getActiveKanaRowSnapshot,
+  getCompletedKanaRowsServerSnapshot,
+  getCompletedKanaRowsSnapshot,
+  parseCompletedKanaRows,
+  subscribeKanaProgress,
+  writeActiveKanaRow,
 } from "@/lib/preview-progress";
 import { cn } from "@/lib/cn";
 
@@ -40,17 +39,17 @@ function levelStats(level: LearningLevel, completedRows: string[]) {
 export function LearnMap() {
   const [activeLevel, setActiveLevel] = useState<LearningLevel["id"]>("n5");
   const storedActiveRow = useSyncExternalStore(
-    subscribeActiveHiraganaRow,
-    getActiveHiraganaRowSnapshot,
-    getActiveHiraganaRowServerSnapshot,
+    subscribeKanaProgress,
+    getActiveKanaRowSnapshot,
+    getActiveKanaRowServerSnapshot,
   );
   const completedRaw = useSyncExternalStore(
-    subscribeHiraganaCompletion,
-    getCompletedHiraganaRowsSnapshot,
-    getCompletedHiraganaRowsServerSnapshot,
+    subscribeKanaProgress,
+    getCompletedKanaRowsSnapshot,
+    getCompletedKanaRowsServerSnapshot,
   );
   const completedRows = useMemo(
-    () => parseCompletedHiraganaRows(completedRaw),
+    () => parseCompletedKanaRows(completedRaw),
     [completedRaw],
   );
   const activeRow =
@@ -180,7 +179,7 @@ export function LearnMap() {
                       : unit.status === "active";
                     const unitDone = isUnitDone(unit, completedRows);
                     const row = unit.lessonRow
-                      ? hiraganaRows.find((item) => item.id === unit.lessonRow)
+                      ? findKanaRow(unit.lessonRow)
                       : undefined;
                     const unitProgress = unitDone ? 100 : unit.progress;
                     const unitMeta =
@@ -263,7 +262,7 @@ export function LearnMap() {
                               }
                               onClick={() => {
                                 if (unit.lessonRow) {
-                                  writeActiveHiraganaRow(unit.lessonRow);
+                                  writeActiveKanaRow(unit.lessonRow);
                                 }
                               }}
                               className={cn(
