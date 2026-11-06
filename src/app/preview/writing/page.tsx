@@ -5,9 +5,9 @@ export default function WritingPage() {
   return (
     <div>
       <PreviewHeader
-        eyebrow="Lab menulis · N5"
+        eyebrow="Lab menulis · N5 & N4"
         title="Satu goresan, satu keputusan."
-        description="Pilih karakter, ikuti garis tipis, dan biarkan validasi lokal menilai bentuk serta urutannya. Coba dengan mouse atau jari."
+        description="Pilih bab, subbab, lalu huruf. Ikuti garis tipis dan biarkan validasi lokal menilai bentuk serta urutan goresan. Coba dengan mouse atau jari."
       />
       <WritingLab />
     </div>

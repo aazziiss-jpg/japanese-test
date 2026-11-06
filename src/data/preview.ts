@@ -36,20 +36,23 @@ export type LearningLevel = {
   sections: LearningSection[];
 };
 
-export type HiraganaCharacter = {
+export type KanaScript = "hiragana" | "katakana";
+
+export type KanaCharacter = {
   kana: string;
   romaji: string;
   note?: string;
 };
 
-export type HiraganaRow = {
+export type KanaRow = {
   id: string;
   label: string;
   title: string;
-  characters: HiraganaCharacter[];
+  script: KanaScript;
+  characters: KanaCharacter[];
 };
 
-export const hiraganaRows: HiraganaRow[] = [
+const hiraganaRowSeeds: Omit<KanaRow, "script">[] = [
   {
     id: "a",
     label: "A",
@@ -228,6 +231,205 @@ export const hiraganaRows: HiraganaRow[] = [
   },
 ];
 
+export const hiraganaRows: KanaRow[] = hiraganaRowSeeds.map((row) => ({
+  ...row,
+  script: "hiragana",
+}));
+
+const katakanaRowSeeds: Omit<KanaRow, "script">[] = [
+  {
+    id: "kata-a",
+    label: "A",
+    title: "Baris A",
+    characters: [
+      { kana: "ア", romaji: "a" },
+      { kana: "イ", romaji: "i" },
+      { kana: "ウ", romaji: "u" },
+      { kana: "エ", romaji: "e" },
+      { kana: "オ", romaji: "o" },
+    ],
+  },
+  {
+    id: "kata-ka",
+    label: "K",
+    title: "Baris K",
+    characters: [
+      { kana: "カ", romaji: "ka" },
+      { kana: "キ", romaji: "ki" },
+      { kana: "ク", romaji: "ku" },
+      { kana: "ケ", romaji: "ke" },
+      { kana: "コ", romaji: "ko" },
+    ],
+  },
+  {
+    id: "kata-sa",
+    label: "S",
+    title: "Baris S",
+    characters: [
+      { kana: "サ", romaji: "sa" },
+      { kana: "シ", romaji: "shi", note: "Ditulis “shi”, bukan “si”." },
+      { kana: "ス", romaji: "su" },
+      { kana: "セ", romaji: "se" },
+      { kana: "ソ", romaji: "so" },
+    ],
+  },
+  {
+    id: "kata-ta",
+    label: "T",
+    title: "Baris T",
+    characters: [
+      { kana: "タ", romaji: "ta" },
+      { kana: "チ", romaji: "chi", note: "Ditulis “chi”, bukan “ti”." },
+      { kana: "ツ", romaji: "tsu", note: "Ditulis “tsu”, bukan “tu”." },
+      { kana: "テ", romaji: "te" },
+      { kana: "ト", romaji: "to" },
+    ],
+  },
+  {
+    id: "kata-na",
+    label: "N",
+    title: "Baris N",
+    characters: [
+      { kana: "ナ", romaji: "na" },
+      { kana: "ニ", romaji: "ni" },
+      { kana: "ヌ", romaji: "nu" },
+      { kana: "ネ", romaji: "ne" },
+      { kana: "ノ", romaji: "no" },
+    ],
+  },
+  {
+    id: "kata-ha",
+    label: "H",
+    title: "Baris H",
+    characters: [
+      { kana: "ハ", romaji: "ha" },
+      { kana: "ヒ", romaji: "hi" },
+      { kana: "フ", romaji: "fu", note: "Diucapkan antara “fu” dan “hu”." },
+      { kana: "ヘ", romaji: "he" },
+      { kana: "ホ", romaji: "ho" },
+    ],
+  },
+  {
+    id: "kata-ma",
+    label: "M",
+    title: "Baris M",
+    characters: [
+      { kana: "マ", romaji: "ma" },
+      { kana: "ミ", romaji: "mi" },
+      { kana: "ム", romaji: "mu" },
+      { kana: "メ", romaji: "me" },
+      { kana: "モ", romaji: "mo" },
+    ],
+  },
+  {
+    id: "kata-ya",
+    label: "Y",
+    title: "Baris Y",
+    characters: [
+      { kana: "ヤ", romaji: "ya" },
+      { kana: "ユ", romaji: "yu" },
+      { kana: "ヨ", romaji: "yo" },
+    ],
+  },
+  {
+    id: "kata-ra",
+    label: "R",
+    title: "Baris R",
+    characters: [
+      { kana: "ラ", romaji: "ra" },
+      { kana: "リ", romaji: "ri" },
+      { kana: "ル", romaji: "ru" },
+      { kana: "レ", romaji: "re" },
+      { kana: "ロ", romaji: "ro" },
+    ],
+  },
+  {
+    id: "kata-wa",
+    label: "W",
+    title: "Baris W & ン",
+    characters: [
+      { kana: "ワ", romaji: "wa" },
+      { kana: "ヲ", romaji: "wo", note: "Dibaca “o” saat menjadi partikel." },
+      { kana: "ン", romaji: "n", note: "Tidak memiliki vokal." },
+    ],
+  },
+  {
+    id: "kata-ga",
+    label: "G",
+    title: "Baris G",
+    characters: [
+      { kana: "ガ", romaji: "ga" },
+      { kana: "ギ", romaji: "gi" },
+      { kana: "グ", romaji: "gu" },
+      { kana: "ゲ", romaji: "ge" },
+      { kana: "ゴ", romaji: "go" },
+    ],
+  },
+  {
+    id: "kata-za",
+    label: "Z",
+    title: "Baris Z",
+    characters: [
+      { kana: "ザ", romaji: "za" },
+      { kana: "ジ", romaji: "ji" },
+      { kana: "ズ", romaji: "zu" },
+      { kana: "ゼ", romaji: "ze" },
+      { kana: "ゾ", romaji: "zo" },
+    ],
+  },
+  {
+    id: "kata-da",
+    label: "D",
+    title: "Baris D",
+    characters: [
+      { kana: "ダ", romaji: "da" },
+      { kana: "ヂ", romaji: "ji", note: "Varian dari ジ; jarang dipakai." },
+      { kana: "ヅ", romaji: "zu", note: "Varian dari ズ; jarang dipakai." },
+      { kana: "デ", romaji: "de" },
+      { kana: "ド", romaji: "do" },
+    ],
+  },
+  {
+    id: "kata-ba",
+    label: "B",
+    title: "Baris B",
+    characters: [
+      { kana: "バ", romaji: "ba" },
+      { kana: "ビ", romaji: "bi" },
+      { kana: "ブ", romaji: "bu" },
+      { kana: "ベ", romaji: "be" },
+      { kana: "ボ", romaji: "bo" },
+    ],
+  },
+  {
+    id: "kata-pa",
+    label: "P",
+    title: "Baris P",
+    characters: [
+      { kana: "パ", romaji: "pa" },
+      { kana: "ピ", romaji: "pi" },
+      { kana: "プ", romaji: "pu" },
+      { kana: "ペ", romaji: "pe" },
+      { kana: "ポ", romaji: "po" },
+    ],
+  },
+];
+
+export const katakanaRows: KanaRow[] = katakanaRowSeeds.map((row) => ({
+  ...row,
+  script: "katakana",
+}));
+
+export const allKanaRows: KanaRow[] = [...hiraganaRows, ...katakanaRows];
+
+export function kanaRowsForScript(script: KanaScript): KanaRow[] {
+  return script === "katakana" ? katakanaRows : hiraganaRows;
+}
+
+export function findKanaRow(rowId: string | undefined): KanaRow | undefined {
+  return allKanaRows.find((row) => row.id === rowId);
+}
+
 const hiraganaProgress: Record<
   string,
   { status: UnitStatus; progress: number }
@@ -246,24 +448,42 @@ export const initiallyCompletedHiraganaRows = Object.entries(hiraganaProgress)
   .filter(([, value]) => value.status === "done")
   .map(([rowId]) => rowId);
 
-const hiraganaUnits: LearningUnit[] = hiraganaRows.map((row, index) => {
-  const total = row.characters.length;
-  const state = hiraganaProgress[row.id] ?? {
-    status: "available",
-    progress: 0,
-  };
+const katakanaProgress: Record<
+  string,
+  { status: UnitStatus; progress: number }
+> = {};
 
-  return {
-    id: `h-${row.id}`,
-    index: String(index + 1).padStart(2, "0"),
-    title: row.title,
-    caption: row.characters.map((character) => character.kana).join(" "),
-    status: state.status,
-    progress: state.progress,
-    meta: `${Math.round((state.progress / 100) * total)}/${total}`,
-    lessonRow: row.id,
-  };
-});
+export const initiallyCompletedKatakanaRows = Object.entries(katakanaProgress)
+  .filter(([, value]) => value.status === "done")
+  .map(([rowId]) => rowId);
+
+function buildKanaUnits(
+  rows: KanaRow[],
+  idPrefix: string,
+  progress: Record<string, { status: UnitStatus; progress: number }>,
+): LearningUnit[] {
+  return rows.map((row, index) => {
+    const total = row.characters.length;
+    const state = progress[row.id] ?? {
+      status: "available",
+      progress: 0,
+    };
+
+    return {
+      id: `${idPrefix}-${row.id}`,
+      index: String(index + 1).padStart(2, "0"),
+      title: row.title,
+      caption: row.characters.map((character) => character.kana).join(" "),
+      status: state.status,
+      progress: state.progress,
+      meta: `${Math.round((state.progress / 100) * total)}/${total}`,
+      lessonRow: row.id,
+    };
+  });
+}
+
+const hiraganaUnits = buildKanaUnits(hiraganaRows, "h", hiraganaProgress);
+const katakanaUnits = buildKanaUnits(katakanaRows, "k", katakanaProgress);
 
 export const learningLevels: LearningLevel[] = [
   {
@@ -284,54 +504,8 @@ export const learningLevels: LearningLevel[] = [
         id: "katakana",
         mark: "ア",
         title: "Katakana",
-        caption: "46 karakter",
-        units: [
-          {
-            id: "k1",
-            index: "01",
-            title: "Katakana — vokal & baris K",
-            caption: "ア イ ウ エ オ · カ キ ク ケ コ",
-            status: "locked",
-            progress: 0,
-            meta: "0/10",
-          },
-          {
-            id: "k2",
-            index: "02",
-            title: "Katakana — baris S & T",
-            caption: "サ シ ス セ ソ · タ チ ツ テ ト",
-            status: "locked",
-            progress: 0,
-            meta: "0/10",
-          },
-          {
-            id: "k3",
-            index: "03",
-            title: "Katakana — baris N & H",
-            caption: "ナ ニ ヌ ネ ノ · ハ ヒ フ ヘ ホ",
-            status: "locked",
-            progress: 0,
-            meta: "0/10",
-          },
-          {
-            id: "k4",
-            index: "04",
-            title: "Katakana — baris M, Y, R",
-            caption: "マ ミ ム メ モ · ヤ ユ ヨ · ラ リ ル レ ロ",
-            status: "locked",
-            progress: 0,
-            meta: "0/13",
-          },
-          {
-            id: "k5",
-            index: "05",
-            title: "Katakana — baris W & N",
-            caption: "ワ ヲ · ン",
-            status: "locked",
-            progress: 0,
-            meta: "0/3",
-          },
-        ],
+        caption: "46 dasar + 25 turunan",
+        units: katakanaUnits,
       },
       {
         id: "kanji-n5",
@@ -512,12 +686,23 @@ export type LessonQuestion = {
   explanation: string;
 };
 
-const hiraganaKana = hiraganaRows.flatMap((row) =>
-  row.characters.map((character) => character.kana),
-);
-const hiraganaRomaji = hiraganaRows.flatMap((row) =>
-  row.characters.map((character) => character.romaji),
-);
+const scriptKana: Record<KanaScript, string[]> = {
+  hiragana: hiraganaRows.flatMap((row) =>
+    row.characters.map((character) => character.kana),
+  ),
+  katakana: katakanaRows.flatMap((row) =>
+    row.characters.map((character) => character.kana),
+  ),
+};
+
+const scriptRomaji: Record<KanaScript, string[]> = {
+  hiragana: hiraganaRows.flatMap((row) =>
+    row.characters.map((character) => character.romaji),
+  ),
+  katakana: katakanaRows.flatMap((row) =>
+    row.characters.map((character) => character.romaji),
+  ),
+};
 
 function buildOptions(
   correct: string,
@@ -548,17 +733,31 @@ function buildOptions(
   }));
 }
 
-export function getHiraganaQuestions(rowId: string): LessonQuestion[] {
-  const row =
-    hiraganaRows.find((item) => item.id === rowId) ?? hiraganaRows[0];
+export function getKanaQuestions(rowId: string): LessonQuestion[] {
+  const row = findKanaRow(rowId) ?? hiraganaRows[0];
 
   return row.characters.map((character, index) => {
     const kanaToRomaji = index % 2 === 0;
     const correct = kanaToRomaji ? character.romaji : character.kana;
-    const rowValues = row.characters.map((item) =>
-      kanaToRomaji ? item.romaji : item.kana,
+    // Variants such as じ/ぢ (ji) share a romaji; don't offer them as
+    // distractors when the question asks which kana is read that way.
+    const sameRomajiKana = new Set(
+      kanaRowsForScript(row.script)
+        .flatMap((item) => item.characters)
+        .filter(
+          (item) =>
+            item.romaji === character.romaji && item.kana !== character.kana,
+        )
+        .map((item) => item.kana),
     );
-    const allValues = kanaToRomaji ? hiraganaRomaji : hiraganaKana;
+    const isDistractor = (value: string) =>
+      kanaToRomaji || !sameRomajiKana.has(value);
+    const rowValues = row.characters
+      .map((item) => (kanaToRomaji ? item.romaji : item.kana))
+      .filter(isDistractor);
+    const allValues = (
+      kanaToRomaji ? scriptRomaji[row.script] : scriptKana[row.script]
+    ).filter(isDistractor);
 
     return {
       prompt: kanaToRomaji
@@ -587,9 +786,9 @@ function shuffle<T>(items: T[]): T[] {
   return result;
 }
 
-export function getHiraganaExamQuestions(): LessonQuestion[] {
+export function getKanaExamQuestions(script: KanaScript): LessonQuestion[] {
   const characters = shuffle(
-    hiraganaRows.flatMap((row) =>
+    kanaRowsForScript(script).flatMap((row) =>
       row.characters.map((character) => ({ ...character, row })),
     ),
   );
