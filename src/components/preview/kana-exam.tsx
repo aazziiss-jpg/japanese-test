@@ -3,25 +3,23 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { ArrowRight, Clock, Lock, RotateCcw, X } from "lucide-react";
 import {
-  getHiraganaExamQuestions,
-  hiraganaRows,
+  getKanaExamQuestions,
   initiallyCompletedHiraganaRows,
+  initiallyCompletedKatakanaRows,
+  kanaRowsForScript,
+  type KanaScript,
   type LessonQuestion,
 } from "@/data/preview";
 import { Button } from "@/components/ui/button";
 import {
-  getCompletedHiraganaRowsServerSnapshot,
-  getCompletedHiraganaRowsSnapshot,
-  parseCompletedHiraganaRows,
-  subscribeHiraganaCompletion,
+  getCompletedKanaRowsServerSnapshot,
+  getCompletedKanaRowsSnapshot,
+  parseCompletedKanaRows,
+  subscribeKanaProgress,
 } from "@/lib/preview-progress";
 import { cn } from "@/lib/cn";
 
 const EXAM_SECONDS = 10 * 60;
-const TOTAL_HIRAGANA = hiraganaRows.reduce(
-  (total, row) => total + row.characters.length,
-  0,
-);
 
 function formatTime(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60)
@@ -31,25 +29,34 @@ function formatTime(totalSeconds: number) {
   return `${minutes}:${seconds}`;
 }
 
-export function HiraganaExam() {
+export function KanaExam({ script }: { script: KanaScript }) {
+  const rows = kanaRowsForScript(script);
+  const scriptName = script === "katakana" ? "katakana" : "hiragana";
+  const mark = script === "katakana" ? "ア" : "あ";
+  const totalCharacters = rows.reduce(
+    (total, row) => total + row.characters.length,
+    0,
+  );
+  const initiallyCompleted =
+    script === "katakana"
+      ? initiallyCompletedKatakanaRows
+      : initiallyCompletedHiraganaRows;
+
   const completedRaw = useSyncExternalStore(
-    subscribeHiraganaCompletion,
-    getCompletedHiraganaRowsSnapshot,
-    getCompletedHiraganaRowsServerSnapshot,
+    subscribeKanaProgress,
+    getCompletedKanaRowsSnapshot,
+    getCompletedKanaRowsServerSnapshot,
   );
   const completedRows = useMemo(
-    () => parseCompletedHiraganaRows(completedRaw),
+    () => parseCompletedKanaRows(completedRaw),
     [completedRaw],
   );
   const completedSet = useMemo(
-    () =>
-      new Set([...initiallyCompletedHiraganaRows, ...completedRows]),
-    [completedRows],
+    () => new Set([...initiallyCompleted, ...completedRows]),
+    [completedRows, initiallyCompleted],
   );
-  const completedCount = hiraganaRows.filter((row) =>
-    completedSet.has(row.id),
-  ).length;
-  const unlocked = completedCount === hiraganaRows.length;
+  const completedCount = rows.filter((row) => completedSet.has(row.id)).length;
+  const unlocked = completedCount === rows.length;
 
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -71,7 +78,7 @@ export function HiraganaExam() {
   }, [started, finishedExam]);
 
   const startExam = () => {
-    setQuestions(getHiraganaExamQuestions());
+    setQuestions(getKanaExamQuestions(script));
     setIndex(0);
     setAnswers({});
     setRemaining(EXAM_SECONDS);
@@ -105,10 +112,10 @@ export function HiraganaExam() {
       <div className="border border-line bg-paper-raised">
         <div className="flex items-center justify-between border-b border-line px-4 py-3">
           <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-faint">
-            Ujian hiragana
+            Ujian {scriptName}
           </span>
           <span className="font-mono text-[9px] tabular text-ink-muted">
-            {unlocked ? "10 menit" : `${completedCount}/${hiraganaRows.length} baris`}
+            {unlocked ? "10 menit" : `${completedCount}/${rows.length} baris`}
           </span>
         </div>
         <div className="p-4">
@@ -122,19 +129,21 @@ export function HiraganaExam() {
               )}
             >
               {unlocked ? (
-                <span className="font-serif-jp text-lg leading-none">試</span>
+                <span className="font-serif-jp text-lg leading-none">
+                  {mark}
+                </span>
               ) : (
                 <Lock className="size-4" strokeWidth={1.5} />
               )}
             </span>
             <div className="flex flex-col gap-1">
               <p className="text-[12.5px] font-medium">
-                Ujian akhir hiragana
+                Ujian akhir {scriptName}
               </p>
               <p className="text-[10.5px] leading-relaxed text-ink-muted">
                 {unlocked
-                  ? `${TOTAL_HIRAGANA} huruf · soal acak · 10 menit`
-                  : "Selesaikan seluruh baris hiragana untuk membuka ujian."}
+                  ? `${totalCharacters} huruf · soal acak · 10 menit`
+                  : `Selesaikan seluruh baris ${scriptName} untuk membuka ujian.`}
               </p>
             </div>
           </div>
@@ -142,7 +151,7 @@ export function HiraganaExam() {
           <div className="mt-4 h-px bg-line" aria-hidden="true">
             <div
               className="h-full bg-ink"
-              style={{ width: `${(completedCount / hiraganaRows.length) * 100}%` }}
+              style={{ width: `${(completedCount / rows.length) * 100}%` }}
             />
           </div>
 
@@ -174,7 +183,7 @@ export function HiraganaExam() {
         <div className="mx-auto flex min-h-svh w-full max-w-3xl flex-col px-4 py-6 sm:px-6">
           <div className="flex items-center justify-between border-b border-line pb-4">
             <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-faint">
-              Ujian hiragana · selesai
+              Ujian {scriptName} · selesai
             </span>
             <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-faint">
               {remaining === 0 ? "Waktu habis" : "Selesai lebih awal"}
@@ -182,7 +191,7 @@ export function HiraganaExam() {
           </div>
 
           <div className="mt-6 border border-line bg-paper-raised p-6 sm:p-9">
-            <span className="font-serif-jp text-3xl leading-none">試</span>
+            <span className="font-serif-jp text-3xl leading-none">{mark}</span>
             <h2 className="mt-4 text-[clamp(1.8rem,4vw,2.6rem)] font-medium leading-[1.08] tracking-[-0.03em]">
               {correctCount} / {questions.length} benar.
             </h2>
@@ -267,7 +276,7 @@ export function HiraganaExam() {
         </div>
 
         <div className="mt-6 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.16em] text-ink-faint">
-          <span>Ujian hiragana</span>
+          <span>Ujian {scriptName}</span>
           <span>
             Soal {index + 1} dari {questions.length}
           </span>
