@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AuthPanel } from "@/components/auth/auth-panel";
+import { LoginRedirect } from "@/components/auth/login-redirect";
 import { SupabaseSetupNotice } from "@/components/auth/supabase-setup-notice";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="grid min-h-svh lg:grid-cols-[1.05fr_1fr]">
+    <div className="grid min-h-svh pt-[env(safe-area-inset-top)] lg:grid-cols-[1.05fr_1fr]">
+      <LoginRedirect />
       <aside className="relative hidden flex-col justify-between overflow-hidden bg-ink p-10 text-paper lg:flex xl:p-14">
         <div
           aria-hidden="true"

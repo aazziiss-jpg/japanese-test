@@ -17,14 +17,13 @@ export function UserMenu() {
     let active = true;
 
     createClient()
-      .auth.getClaims()
+      .auth.getSession()
       .then(({ data }) => {
         if (!active) return;
-        const claim = data?.claims?.email;
-        setEmail(typeof claim === "string" ? claim : null);
+        setEmail(data.session?.user.email ?? null);
       })
       .catch(() => {
-        // Email hanya pelengkap tampilan; sesi tetap divalidasi di proxy.
+        // Email hanya pelengkap tampilan; penjagaan rute ada di AuthGate.
       });
 
     return () => {
