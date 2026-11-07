@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { site } from "@/content/landing";
+import { shipporiMincho, zenKakuGothic } from "./fonts";
+import { NativeShell } from "@/components/app/native-shell";
+import { NativeEntry } from "@/components/app/native-entry";
 import "./globals.css";
 
 const geist = Geist({
@@ -53,6 +56,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f6f4ef" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0b" },
@@ -78,22 +82,9 @@ export default function RootLayout({
     <html
       lang="id"
       data-scroll-behavior="smooth"
-      className={`${geist.variable} ${geistMono.variable}`}
+      className={`${geist.variable} ${geistMono.variable} ${shipporiMincho.variable} ${zenKakuGothic.variable}`}
       suppressHydrationWarning
     >
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font -- Aturan ini untuk Pages Router; di App Router stylesheet font di <head> layout berlaku untuk semua rute. next/font tidak menyediakan subset "japanese" untuk kedua keluarga ini. */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
-        />
-      </head>
       <body className="font-sans text-body antialiased">
         <script
           dangerouslySetInnerHTML={{ __html: themeScript }}
@@ -106,6 +97,8 @@ export default function RootLayout({
           Lompat ke konten
         </a>
         {children}
+        <NativeShell />
+        <NativeEntry />
         <div className="grain-overlay" aria-hidden="true" />
       </body>
     </html>

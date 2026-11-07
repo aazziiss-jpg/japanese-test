@@ -60,9 +60,9 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
-  --font-jp: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+  --font-jp: var(--font-zen-kaku), "Hiragino Kaku Gothic ProN", "Yu Gothic",
     "Noto Sans JP", sans-serif;
-  --font-serif-jp: "Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN",
+  --font-serif-jp: var(--font-shippori), "Yu Mincho", "Hiragino Mincho ProN",
     "Noto Serif JP", serif;
 
   --text-hero: clamp(2.6rem, 6.2vw, 5rem);
