@@ -316,75 +316,96 @@ adb shell am start -n id.sumi.app/.MainActivity
 
 ## Dokumentasi Tampilan Aplikasi Android
 
-Bagian ini mendokumentasikan tampilan Sumi pada perangkat Android berdasarkan tangkapan layar yang tersedia di direktori `docs/`. Gambar ditampilkan langsung dari repository agar pembaca dapat melihat antarmuka aplikasi tanpa perlu menjalankannya terlebih dahulu.
+Bagian ini menampilkan dokumentasi antarmuka aplikasi Sumi
+yang dijalankan pada perangkat Android.
 
 ### 1. Landing Page
 
-![Landing Page](docs/1.%20Landing%20Page.jpeg)
+<p align="center">
+  <img src="docs/1.%20Landing%20Page.jpeg" width="280" alt="Landing Page"/>
+</p>
 
-*Tampilan awal Sumi yang memperkenalkan platform, tujuan pembelajaran, dan akses untuk mulai menggunakan aplikasi.*
+<p align="center"><em>Halaman utama yang memperkenalkan platform pembelajaran Sumi.</em></p>
 
 ### 2. Landing Page — Bagian Bawah
 
-![Landing Page Bottom](docs/2.%20Landing%20Page%20Bottom.jpeg)
+<p align="center">
+  <img src="docs/2.%20Landing%20Page%20Bottom.jpeg" width="280" alt="Landing Page Bottom"/>
+</p>
 
-*Bagian lanjutan landing page yang menampilkan informasi tambahan mengenai pendekatan dan fitur pembelajaran Sumi.*
+<p align="center"><em>Bagian lanjutan landing page yang menampilkan informasi dan fitur pembelajaran.</em></p>
 
 ### 3. Login Page
 
-![Login Page](docs/3.%20Login%20Page.jpeg)
+<p align="center">
+  <img src="docs/3.%20Login%20Page.jpeg" width="280" alt="Login Page"/>
+</p>
 
-*Halaman masuk bagi pengguna yang telah memiliki akun untuk mengakses area pembelajaran.*
+<p align="center"><em>Halaman autentikasi untuk masuk ke aplikasi Sumi.</em></p>
 
 ### 4. Register Page
 
-![Register Page](docs/4.%20Register%20Page.jpeg)
+<p align="center">
+  <img src="docs/4.%20Register%20Page.jpeg" width="280" alt="Register Page"/>
+</p>
 
-*Halaman pendaftaran akun baru sebelum pengguna masuk ke dalam aplikasi.*
+<p align="center"><em>Halaman pendaftaran akun pengguna baru.</em></p>
 
 ### 5. Lesson Page
 
-![Lesson Page](docs/5.%20Lesson%20Page.jpeg)
+<p align="center">
+  <img src="docs/5.%20Lesson%20Page.jpeg" width="280" alt="Lesson Page"/>
+</p>
 
-*Halaman pelajaran yang digunakan pengguna untuk mempelajari materi bahasa Jepang.*
+<p align="center"><em>Halaman penyajian materi pembelajaran bahasa Jepang.</em></p>
 
 ### 6. Japanese Letter Quiz
 
-![Japanese Letter Quiz](docs/6.%20Japanese%20Letter%20Quiz.jpeg)
+<p align="center">
+  <img src="docs/6.%20Japanese%20Letter%20Quiz.jpeg" width="280" alt="Japanese Letter Quiz"/>
+</p>
 
-*Tampilan kuis untuk menguji kemampuan pengguna dalam mengenali huruf Jepang.*
+<p align="center"><em>Halaman kuis untuk menguji pengenalan karakter Jepang.</em></p>
 
 ### 7. Japanese Letter Writing
 
-![Japanese Letter Writing](docs/7.%20Japanese%20Letter%20Writing.jpeg)
+<p align="center">
+  <img src="docs/7.%20Japanese%20Letter%20Writing.jpeg" width="280" alt="Japanese Letter Writing"/>
+</p>
 
-*Halaman latihan menulis huruf Jepang melalui area kanvas digital.*
+<p align="center"><em>Fitur latihan menulis karakter Jepang menggunakan kanvas digital.</em></p>
 
 ### 8. Conversation Test
 
-![Conversation Test](docs/8.%20Conversation%20Test.jpeg)
+<p align="center">
+  <img src="docs/8.%20Conversation%20Test.jpeg" width="280" alt="Conversation Test"/>
+</p>
 
-*Tampilan pengujian percakapan untuk mendukung latihan pemahaman dan penggunaan bahasa Jepang.*
+<p align="center"><em>Halaman pengujian kemampuan percakapan bahasa Jepang.</em></p>
 
 ### 9. Voice Test
 
-![Voice Test](docs/9.%20Voice%20test.jpeg)
+<p align="center">
+  <img src="docs/9.%20Voice%20test.jpeg" width="280" alt="Voice Test"/>
+</p>
 
-*Tampilan pengujian fitur suara sebagai bagian dari pengalaman latihan bahasa Jepang.*
+<p align="center"><em>Antarmuka pengujian interaksi berbasis suara.</em></p>
 
 ### 10. Chat AI
 
-![Chat AI](docs/10.%20Chat%20AI.jpeg)
+<p align="center">
+  <img src="docs/10.%20Chat%20AI.jpeg" width="280" alt="Chat AI"/>
+</p>
 
-*Antarmuka percakapan dengan AI yang dirancang sebagai pendamping pengguna selama proses belajar.*
+<p align="center"><em>Antarmuka percakapan AI sebagai pendamping pembelajaran.</em></p>
 
 ### 11. Resume Lesson
 
-![Resume Lesson](docs/11.%20Resume%20lesson.jpeg)
+<p align="center">
+  <img src="docs/11.%20Resume%20lesson.jpeg" width="280" alt="Resume Lesson"/>
+</p>
 
-*Tampilan untuk melanjutkan kembali pembelajaran yang sebelumnya telah dimulai pengguna.*
-
-> **Catatan:** gambar di atas menggunakan nama dan lokasi file sesuai struktur direktori `docs/` yang ditampilkan pada repository. Jika nama file diubah, tautan gambar pada bagian ini juga perlu diperbarui.
+<p align="center"><em>Halaman untuk melanjutkan materi pembelajaran sebelumnya.</em></p>
 
 ## Konfigurasi Supabase
 
