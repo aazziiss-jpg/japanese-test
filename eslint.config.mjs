@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Aset web hasil sync Capacitor dan proyek native Android.
+    "android/**",
   ]),
 ]);
 

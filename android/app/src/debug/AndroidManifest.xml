@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Hanya untuk build debug: izinkan HTTP agar live reload `next dev` bisa
+  dimuat WebView. Build release tetap memblokir cleartext.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application android:usesCleartextTraffic="true" />
+</manifest>
