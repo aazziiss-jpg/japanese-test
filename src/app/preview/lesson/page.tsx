@@ -1,28 +1,12 @@
 import { Suspense } from "react";
-import { LessonPlayer } from "@/components/preview/lesson-player";
-import { findKanaRow, hiraganaRows } from "@/data/preview";
+import { LessonRoute } from "@/components/preview/lesson-route";
 
-export default function LessonPreviewPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ row?: string }>;
-}) {
+export default function LessonPreviewPage() {
   return (
     <Suspense fallback={<LessonFallback />}>
-      <LessonContent searchParams={searchParams} />
+      <LessonRoute />
     </Suspense>
   );
-}
-
-async function LessonContent({
-  searchParams,
-}: {
-  searchParams: Promise<{ row?: string }>;
-}) {
-  const { row } = await searchParams;
-  const rowId = findKanaRow(row)?.id ?? hiraganaRows[0].id;
-
-  return <LessonPlayer key={rowId} rowId={rowId} />;
 }
 
 function LessonFallback() {
