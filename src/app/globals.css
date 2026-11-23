@@ -20,6 +20,16 @@
   --grain-opacity: 0.035;
   --canvas-ink: #0a0a0b;
   --canvas-guide: #b9b5a9;
+
+  /*
+   * Area aman perangkat. Capacitor 8 (plugin SystemBars) menyuntikkan
+   * --safe-area-inset-* saat WebView berjalan edge-to-edge; browser biasa
+   * memakai env(). Ambil nilai terbesar agar padding tidak dihitung dua kali.
+   */
+  --safe-top: max(var(--safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
+  --safe-right: max(var(--safe-area-inset-right, 0px), env(safe-area-inset-right, 0px));
+  --safe-bottom: max(var(--safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
+  --safe-left: max(var(--safe-area-inset-left, 0px), env(safe-area-inset-left, 0px));
 }
 
 .dark {
