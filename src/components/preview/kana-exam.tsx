@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowRight, Clock, Lock, RotateCcw, X } from "lucide-react";
 import {
   getKanaExamQuestions,
@@ -17,6 +17,7 @@ import {
   parseCompletedKanaRows,
   subscribeKanaProgress,
 } from "@/lib/preview-progress";
+import { recordActivity } from "@/lib/preview-activity";
 import { cn } from "@/lib/cn";
 
 const EXAM_SECONDS = 10 * 60;
@@ -64,6 +65,7 @@ export function KanaExam({ script }: { script: KanaScript }) {
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [remaining, setRemaining] = useState(EXAM_SECONDS);
+  const recordedRef = useRef(false);
 
   const finishedExam = started && (finished || remaining === 0);
 
@@ -84,6 +86,7 @@ export function KanaExam({ script }: { script: KanaScript }) {
     setRemaining(EXAM_SECONDS);
     setFinished(false);
     setStarted(true);
+    recordedRef.current = false;
   };
 
   const closeExam = () => {
@@ -106,6 +109,21 @@ export function KanaExam({ script }: { script: KanaScript }) {
       return selectedOption?.correct ? total + 1 : total;
     }, 0);
   }, [answers, finishedExam, questions]);
+
+  useEffect(() => {
+    if (!finishedExam || recordedRef.current) return;
+
+    recordedRef.current = true;
+
+    if (questions.length === 0) return;
+
+    recordActivity({
+      kind: "exam",
+      title: `Ujian ${scriptName}`,
+      detail: `${correctCount}/${questions.length} benar`,
+      minutes: Math.max(1, Math.round((EXAM_SECONDS - remaining) / 60)),
+    });
+  }, [correctCount, finishedExam, questions.length, remaining, scriptName]);
 
   if (!started) {
     return (

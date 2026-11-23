@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Eye, Lightbulb, RotateCcw } from "lucide-react";
 import {
   StrokeCanvas,
@@ -14,6 +14,7 @@ import {
   type KanaCharacter,
 } from "@/data/preview";
 import { Button } from "@/components/ui/button";
+import { recordActivity } from "@/lib/preview-activity";
 import { cn } from "@/lib/cn";
 
 type ChapterId = "n5" | "n4";
@@ -70,6 +71,7 @@ export function WritingLab() {
   const [kana, setKana] = useState(hiraganaRows[0].characters[0].kana);
   const [progress, setProgress] = useState({ done: 0, total: 3, accuracy: 0 });
   const canvas = useRef<StrokeCanvasHandle>(null);
+  const recordedKana = useRef(new Set<string>());
 
   const chapter =
     chapters.find((item) => item.id === chapterId) ?? chapters[0];
@@ -83,12 +85,23 @@ export function WritingLab() {
     row.characters.find((item) => item.kana === kana) ?? row.characters[0];
   const glyph = KANA_GLYPHS[character.kana];
 
-  const handleProgress = useCallback(
-    (done: number, total: number, accuracy: number) => {
-      setProgress({ done, total, accuracy });
-    },
-    [],
-  );
+  const handleProgress = (done: number, total: number, accuracy: number) => {
+    setProgress({ done, total, accuracy });
+
+    if (
+      total > 0 &&
+      done >= total &&
+      !recordedKana.current.has(character.kana)
+    ) {
+      recordedKana.current.add(character.kana);
+      recordActivity({
+        kind: "writing",
+        title: `Latihan menulis · ${character.kana}`,
+        detail: `${total} goresan · ${accuracy}% akurasi`,
+        minutes: 1,
+      });
+    }
+  };
 
   const selectCharacter = (nextCharacter: KanaCharacter) => {
     setKana(nextCharacter.kana);

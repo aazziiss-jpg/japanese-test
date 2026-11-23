@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { reviewIntervals, reviewQueue } from "@/data/preview";
 import { cn } from "@/lib/cn";
 import { EASE_SUMI } from "@/lib/motion";
+import { recordActivity } from "@/lib/preview-activity";
 
 export function ReviewSession() {
   const [index, setIndex] = useState(0);
@@ -17,6 +18,12 @@ export function ReviewSession() {
   const remaining = Math.max(1, reviewQueue.length - index);
 
   const rate = (label: string, detail: string) => {
+    recordActivity({
+      kind: "review",
+      title: `Ulangi · ${card.term}`,
+      detail: `${label} · berikutnya ${detail}`,
+      minutes: 0,
+    });
     setRating(`${label} · berikutnya ${detail}`);
     window.setTimeout(() => {
       setIndex((value) => value + 1);

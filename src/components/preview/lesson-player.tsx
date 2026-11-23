@@ -11,6 +11,7 @@ import {
   completeKanaRow,
   writeActiveKanaRow,
 } from "@/lib/preview-progress";
+import { recordActivity } from "@/lib/preview-activity";
 import { cn } from "@/lib/cn";
 import { EASE_SUMI } from "@/lib/motion";
 
@@ -27,6 +28,7 @@ export function LessonPlayer({ rowId }: { rowId: string }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
 
   const question = questions[index];
   const selectedOption = question.options.find((option) => option.id === selected);
@@ -40,11 +42,22 @@ export function LessonPlayer({ rowId }: { rowId: string }) {
   const selectOption = (optionId: string) => {
     setSelected(optionId);
     setChecked(true);
+
+    const option = question.options.find((item) => item.id === optionId);
+    if (option?.correct) {
+      setCorrectCount((value) => value + 1);
+    }
   };
 
   const next = () => {
     if (lastQuestion) {
       completeKanaRow(row.id);
+      recordActivity({
+        kind: "lesson",
+        title: `${scriptName} · ${row.title}`,
+        detail: `${correctCount}/${questions.length} benar`,
+        minutes: 2,
+      });
       setFinished(true);
       if (nextRow) {
         writeActiveKanaRow(nextRow.id);
