@@ -1,17 +1,86 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Mic, MicOff, Volume2 } from "lucide-react";
 import { senseiModes, senseiTranscript } from "@/data/preview";
 import { cn } from "@/lib/cn";
 import { EASE_SUMI } from "@/lib/motion";
+import { recordActivity } from "@/lib/preview-activity";
+import { sendMessage, startListening, speak, isNativeSenseiAvailable } from "@/lib/sensei/client";
 
 const BARS = [8, 14, 22, 10, 28, 18, 34, 12, 26, 9, 20, 30, 14, 24, 8, 16, 28, 12];
 
 export function SenseiStudio() {
   const [live, setLive] = useState(false);
+  const [thinking, setThinking] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
   const [mode, setMode] = useState(0);
+  const [transcriptLines, setTranscriptLines] = useState<
+    Array<{ role: "user" | "sensei"; jp: string; id: string }>
+  >(senseiTranscript);
+  const [pendingMessage, setPendingMessage] = useState("");
+
+  const toggleLive = async () => {
+    if (live) {
+      recordActivity({
+        kind: "sensei",
+        title: `Sensei · ${senseiModes[mode]?.title ?? "Sesi percakapan"}`,
+        detail: "Sesi selesai",
+        minutes: 1,
+      });
+    }
+    setLive((value) => !value);
+    if (!live) {
+      // Mulai mendengarkan -> mulai STT
+      setThinking(true);
+      try {
+        if (isNativeSenseiAvailable()) {
+          const text = await startListening("id-ID"); // bahasa Indonesia; sesuaikan sesuai kebutuhan
+          setPendingMessage(text);
+          // Kirim ke Edge Function
+          setThinking(true);
+          const reply = await sendMessage([
+            { role: "user", content: text },
+          ]);
+          setThinking(false);
+          // Tambahkan ke transkripsi
+          setTranscriptLines((prev) => [
+            ...prev,
+            { role: "user", jp: text, id: `user-${Date.now()}` },
+          ]);
+          setSpeaking(true);
+          await speak(reply, "ja-JP");
+          setSpeaking(false);
+        } else {
+          // Mode non-native: pakai API langsung
+          const reply = await sendMessage([
+            { role: "user", content: pendingMessage },
+          ]);
+          setThinking(false);
+          setSpeaking(true);
+          await speak(reply, "ja-JP");
+          setSpeaking(false);
+          setTranscriptLines((prev) => [
+            ...prev,
+            { role: "user", jp: pendingMessage, id: `user-${Date.now()}` },
+            { role: "sensei", jp: reply, id: `sensei-${Date.now()}` },
+          ]);
+        }
+      } catch (err) {
+        console.error(err);
+        setThinking(false);
+        // catatan error ke transkripsi opsional
+      }
+    }
+  };
+
+  // Reset state saat mode berubah
+  useEffect(() => {
+    setThinking(false);
+    setSpeaking(false);
+    setPendingMessage("");
+  }, [mode]);
 
   return (
     <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
@@ -125,7 +194,7 @@ export function SenseiStudio() {
 
               <button
                 type="button"
-                onClick={() => setLive((value) => !value)}
+                onClick={toggleLive}
                 aria-pressed={live}
                 aria-label={live ? "Akhiri bicara" : "Mulai bicara"}
                 className={cn(
@@ -141,6 +210,22 @@ export function SenseiStudio() {
                   <Mic className="size-7" strokeWidth={1.4} />
                 )}
               </button>
+
+              {/* Status hints */}
+              {thinking && (
+                <p className="mt-2 font-mono text-[8.5px] uppercase tracking-[0.18em] text-ink-faint">
+                  sedang berpikir...
+                </p>
+              )}
+              {speaking && (
+                <p className="mt-2 font-mono text-[8.5px] uppercase tracking-[0.18em] text-ink-faint">
+                  sedang berbicara...
+                </p>
+              )}
+
+              <p className="mt-2 font-mono text-[8.5px] uppercase tracking-[0.18em] text-ink-faint">
+                {live ? "sedang mendengarkan · tekan untuk berhenti" : "tekan untuk mulai bicara"}
+              </p>
             </div>
 
             <div className="mt-8 flex h-10 items-center justify-center gap-[3px]" aria-hidden="true">
@@ -158,10 +243,6 @@ export function SenseiStudio() {
                 />
               ))}
             </div>
-
-            <p className="mt-2 font-mono text-[8.5px] uppercase tracking-[0.18em] text-ink-faint">
-              {live ? "sedang mendengarkan · tekan untuk berhenti" : "tekan untuk mulai bicara"}
-            </p>
           </div>
         </div>
 
@@ -176,7 +257,7 @@ export function SenseiStudio() {
             </span>
           </div>
           <div className="flex flex-col gap-4 p-4 sm:p-5">
-            {senseiTranscript.map((line, index) => (
+            {transcriptLines.map((line, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 6 }}
