@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="grid min-h-svh pt-[env(safe-area-inset-top)] lg:grid-cols-[1.05fr_1fr]">
+    <div className="grid min-h-svh pt-[var(--safe-top)] lg:grid-cols-[1.05fr_1fr]">
       <LoginRedirect />
       <aside className="relative hidden flex-col justify-between overflow-hidden bg-ink p-10 text-paper lg:flex xl:p-14">
         <div
