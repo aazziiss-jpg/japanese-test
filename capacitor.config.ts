@@ -18,6 +18,10 @@ const config: CapacitorConfig = {
     allowMixedContent: false,
   },
   plugins: {
+    SystemBars: {
+      insetsHandling: "css",
+      initialViewportFitValueHint: "cover",
+    },
     StatusBar: {
       overlaysWebView: true,
       style: "DEFAULT",
