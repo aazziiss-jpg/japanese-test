@@ -28,9 +28,9 @@ const screens = [
     mark: "書",
   },
   {
-    href: "/preview/review",
+    href: "/preview/words",
     index: "04",
-    title: "Ulangi",
+    title: "Kosakata",
     description:
       "Kartu SRS dengan empat tingkat kesulitan dan jadwal berikutnya.",
     mark: "繰",

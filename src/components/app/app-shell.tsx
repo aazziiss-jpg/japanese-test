@@ -19,9 +19,9 @@ import { UserMenu } from "@/components/auth/user-menu";
 import { cn } from "@/lib/cn";
 
 const items = [
-  { href: "/preview/learn", label: "Belajar", icon: BookOpen },
+  { href: "/preview/learn", label: "Huruf", icon: BookOpen },
   { href: "/preview/writing", label: "Menulis", icon: Pencil },
-  { href: "/preview/review", label: "Ulangi", icon: Layers },
+  { href: "/preview/words", label: "Kosakata", icon: Layers },
   { href: "/preview/sensei", label: "Sensei", icon: Mic },
   { href: "/preview/profile", label: "Profil", icon: User },
 ];

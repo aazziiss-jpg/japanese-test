@@ -59,6 +59,21 @@ export function LearnMap() {
 
   return (
     <div>
+      <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Lompat ke materi">
+        {level.sections.map((section) => (
+          <a
+            key={section.id}
+            href={`#${section.id}`}
+            className="flex items-center gap-2 border border-line bg-paper px-3 py-1.5 text-[11px] text-ink-muted transition-colors hover:border-ink hover:bg-ink hover:text-paper"
+          >
+            <span className="font-serif-jp text-[13px] leading-none" aria-hidden="true">
+              {section.mark}
+            </span>
+            {section.title}
+          </a>
+        ))}
+      </div>
+
       <div
         className="mb-8 grid grid-cols-2 gap-px border border-line bg-line"
         role="group"
@@ -148,7 +163,11 @@ export function LearnMap() {
           ).length;
 
           return (
-            <section key={section.id}>
+            <section
+              key={section.id}
+              id={section.id}
+              className="scroll-mt-[calc(4.5rem+var(--safe-top))]"
+            >
               <div className="mb-4 flex flex-wrap items-end justify-between gap-3 border-b border-line pb-3">
                 <div className="flex items-baseline gap-3">
                   <span className="font-serif-jp text-[22px] leading-none text-ink-muted">

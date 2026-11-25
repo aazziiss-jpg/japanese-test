@@ -27,7 +27,7 @@ export default function LearnPage() {
               kartu jatuh tempo hari ini
             </p>
             <Link
-              href="/preview/review"
+              href="/preview/words"
               className="mt-5 flex h-9 items-center justify-center gap-2 border border-paper/25 text-[11px] transition-colors hover:bg-paper hover:text-ink"
             >
               Mulai ulangi
