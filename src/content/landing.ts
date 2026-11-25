@@ -191,9 +191,9 @@ export const footer = {
     {
       title: "Produk",
       links: [
-        { label: "Belajar", href: "/preview/learn" },
+        { label: "Huruf", href: "/preview/learn" },
         { label: "Lab menulis", href: "/preview/writing" },
-        { label: "Ulangi", href: "/preview/review" },
+        { label: "Kosakata", href: "/preview/words" },
         { label: "Sensei", href: "/preview/sensei" },
       ],
     },

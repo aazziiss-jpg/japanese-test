@@ -639,11 +639,44 @@ export const todayQuests = [
   { label: "Ulangi 15 kartu", progress: 15, target: 15, xp: 25, done: true },
 ];
 
-export const reviewQueue = [
-  { id: "r1", term: "食べる", reading: "たべる", meaning: "makan", type: "Kosakata · N5", due: "sekarang" },
-  { id: "r2", term: "日", reading: "ひ / にち", meaning: "hari · matahari", type: "Kanji · N5", due: "3 mnt" },
-  { id: "r3", term: "あ", reading: "a", meaning: "vokal a", type: "Hiragana", due: "8 mnt" },
-  { id: "r4", term: "学校", reading: "がっこう", meaning: "sekolah", type: "Kosakata · N5", due: "besok" },
+export type VocabularyWord = {
+  id: string;
+  category: "Kata Kerja" | "Kata Nama" | "Kata Penyebutan" | "Adjektiva";
+  term: string;
+  reading: string;
+  meaning: string;
+  example?: string;
+  due: string;
+};
+
+export const vocabularyWords: VocabularyWord[] = [
+  // Kata Kerja (Verbs)
+  { id: "v1", category: "Kata Kerja", term: "たべる", reading: "taberu", meaning: "makan", example: "わたしは りんごを たべます。", due: "sekarang" },
+  { id: "v2", category: "Kata Kerja", term: "のむ", reading: "nomu", meaning: "minum", example: "みずを のみます。", due: "3 mnt" },
+  { id: "v3", category: "Kata Kerja", term: "いく", reading: "iku", meaning: "pergi", example: "がっこうに いきます。", due: "8 mnt" },
+  { id: "v4", category: "Kata Kerja", term: "くる", reading: "kuru", meaning: "datang", example: "ともだちが きます。", due: "12 mnt" },
+  { id: "v5", category: "Kata Kerja", term: "みる", reading: "miru", meaning: "melihat", example: "ほんを みます。", due: "18 mnt" },
+  { id: "v6", category: "Kata Kerja", term: "かく", reading: "kaku", meaning: "menulis", example: "なまえを かきます。", due: "25 mnt" },
+  { id: "v7", category: "Kata Kerja", term: "よむ", reading: "yomu", meaning: "membaca", example: "ほんを よみます。", due: "30 mnt" },
+
+  // Kata Nama (Nouns)
+  { id: "n1", category: "Kata Nama", term: "がっこう", reading: "gakkou", meaning: "sekolah", example: "がっこうは おおきいです。", due: "besok" },
+  { id: "n2", category: "Kata Nama", term: "せんせい", reading: "sensei", meaning: "guru", example: "せんせいは やさしいです。", due: "besok" },
+  { id: "n3", category: "Kata Nama", term: "ともだち", reading: "tomodachi", meaning: "teman", example: "ともだちと あそびます。", due: "2 hari" },
+  { id: "n4", category: "Kata Nama", term: "にほんご", reading: "nihongo", meaning: "bahasa Jepang", example: "にほんごを べんきょうします。", due: "2 hari" },
+  { id: "n5", category: "Kata Nama", term: "いえ", reading: "ie", meaning: "rumah", example: "わたしの いえは ここです。", due: "3 hari" },
+  { id: "n6", category: "Kata Nama", term: "くるま", reading: "kuruma", meaning: "mobil", example: "あかい くるまですね。", due: "3 hari" },
+
+  // Kata Penyebutan (Pronouns)
+  { id: "p1", category: "Kata Penyebutan", term: "わたし", reading: "watashi", meaning: "saya", example: "わたしは がくせいです。", due: "4 hari" },
+  { id: "p2", category: "Kata Penyebutan", term: "きみ", reading: "kimi", meaning: "kamu", example: "きみは だれですか。", due: "4 hari" },
+  { id: "p3", category: "Kata Penyebutan", term: "かれ", reading: "kare", meaning: "dia (laki-laki)", example: "かれは ともだちです。", due: "5 hari" },
+  { id: "p4", category: "Kata Penyebutan", term: "かのじょ", reading: "kanojo", meaning: "dia (perempuan)", example: "かのじょは きれいです。", due: "5 hari" },
+
+  // Adjektiva
+  { id: "a1", category: "Adjektiva", term: "おおきい", reading: "ookii", meaning: "besar", example: "この いえは おおきいです。", due: "6 hari" },
+  { id: "a2", category: "Adjektiva", term: "ちいさい", reading: "chiisai", meaning: "kecil", example: "この ぺんは ちいさいです。", due: "7 hari" },
+  { id: "a3", category: "Adjektiva", term: "あたらしい", reading: "atarashii", meaning: "baru", example: "あたらしい ほんを かいました。", due: "8 hari" },
 ];
 
 export const reviewIntervals = [

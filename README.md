@@ -66,7 +66,7 @@ Sumi menyediakan pengalaman belajar terstruktur melalui beberapa pendekatan:
 | Learning | `/preview/learn` | Daftar unit pembelajaran tingkat N5. |
 | Lesson | `/preview/lesson` | Latihan pilihan ganda dan pembahasan materi. |
 | Writing Lab | `/preview/writing` | Latihan menulis karakter menggunakan kanvas digital. |
-| Review | `/preview/review` | Antarmuka sesi pengulangan kartu dengan konsep FSRS. |
+| Kosakata | `/preview/words` | Antarmuka sesi pengulangan kartu dengan konsep FSRS. |
 | Sensei | `/preview/sensei` | Antarmuka pendamping percakapan suara. Integrasi Gemini Live merupakan pengembangan lanjutan. |
 | Profile | `/preview/profile` | Statistik pembelajaran, kebiasaan, dan lencana. |
 
