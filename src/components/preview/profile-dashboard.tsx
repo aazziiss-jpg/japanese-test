@@ -33,7 +33,7 @@ const kindMeta: Record<
   lesson: { label: "Pelajaran", icon: BookOpen },
   exam: { label: "Ujian", icon: GraduationCap },
   writing: { label: "Menulis", icon: Pencil },
-  review: { label: "Ulangi", icon: Layers },
+  review: { label: "Kosakata", icon: Layers },
   sensei: { label: "Sensei", icon: Mic },
 };
 
@@ -48,7 +48,7 @@ const levelClasses = [
 const quickLinks = [
   { href: "/preview/learn", label: "Mulai pelajaran" },
   { href: "/preview/writing", label: "Latihan menulis" },
-  { href: "/preview/review", label: "Ulangi kartu" },
+  { href: "/preview/words", label: "Kosakata" },
 ];
 
 export function ProfileDashboard() {

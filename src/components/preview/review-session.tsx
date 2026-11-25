@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Eye, RotateCcw, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { reviewIntervals, reviewQueue } from "@/data/preview";
+import { reviewIntervals, vocabularyWords } from "@/data/preview";
 import { cn } from "@/lib/cn";
 import { EASE_SUMI } from "@/lib/motion";
 import { recordActivity } from "@/lib/preview-activity";
@@ -14,13 +14,13 @@ export function ReviewSession() {
   const [revealed, setRevealed] = useState(false);
   const [rating, setRating] = useState<string | null>(null);
 
-  const card = reviewQueue[index % reviewQueue.length];
-  const remaining = Math.max(1, reviewQueue.length - index);
+  const card = vocabularyWords[index % vocabularyWords.length];
+  const remaining = Math.max(1, vocabularyWords.length - index);
 
   const rate = (label: string, detail: string) => {
     recordActivity({
       kind: "review",
-      title: `Ulangi · ${card.term}`,
+      title: `Kosakata · ${card.term}`,
       detail: `${label} · berikutnya ${detail}`,
       minutes: 0,
     });
@@ -35,14 +35,14 @@ export function ReviewSession() {
   return (
     <div className="flex w-full max-w-2xl flex-col gap-4">
       <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.16em] text-ink-faint">
-        <span>Ulangi · N5</span>
+        <span>Kosakata · N5</span>
         <span>{remaining} kartu tersisa</span>
       </div>
 
       <div className="relative flex min-h-[340px] flex-col justify-between border border-line bg-paper-raised p-6 sm:p-10">
         <div className="flex items-center justify-between">
           <span className="rounded-full border border-line px-2.5 py-1 font-mono text-[8.5px] uppercase tracking-[0.14em] text-ink-muted">
-            {card.type}
+            {card.category}
           </span>
           <button
             type="button"
